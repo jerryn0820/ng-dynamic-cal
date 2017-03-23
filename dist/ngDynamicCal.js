@@ -325,6 +325,38 @@ dynamicCal.directive('calDay', ['$document', 'calEventHandler', function ($docum
             elem.on('mousedown', function (e) { removeOverlay();  } );
 
             var startPageTop, startPageBottom, cellHeight;
+
+            //ATTEMPT to allow for doubleclick and the drag-ability when creating a schedule event, due to the behavior of the double click behaving similarly to how we are currently setting up new events..
+            // mousedown
+            // mousemove
+            // mouseup
+            // click
+
+            //Attempted to use flags to detected if mouse was being dragged to enable drag-ability and disable it and allow for doubleclick/click if mouse flag was not set.
+            //ng-dblclick = return false
+
+                
+                //elem.on('dblclick', function (e) {
+                //    $document.off('mousedown', deleteOverlay);
+                //    if (scope.onTimeSelect != undefined && scope.onTimeSelect.constructor == Function) {
+                //        var target = $_(e.target);
+                //        if (target.hasClass('cal-hourMark') || target.hasClass('cal-halfHourMark')) {
+
+                //            startY = e.pageY;
+                //            startPageTop = startY - e.offsetY;
+                //            startPageBottom = startPageTop + e.target.offsetHeight;
+                //            startTop = e.target.offsetTop;
+                //            startBottom = startTop + e.target.offsetHeight;
+                //            cellHeight = e.target.offsetHeight;
+
+                //            overlay = getOverlay();
+                //            //overlay.css('top', e.target.offsetTop + "px").css('height', e.target.offsetHeight + "px");
+                //            // Set up events
+                //            mouseup(e);
+                //        }
+                //    }
+                //});
+
             elem.on('mousedown', function (e) {
                 $document.off('mousedown', deleteOverlay);
                 if (scope.onTimeSelect != undefined && scope.onTimeSelect.constructor == Function) {
@@ -1357,7 +1389,7 @@ angular.module('dynamicCal').run(['$templateCache', function($templateCache) {
     "\n" +
     "\t</div>\r" +
     "\n" +
-	"\t<cal-event popover-placement=\"bottom\" popover-template=\"\'popover.html\'\" popover-popup-delay=\"500\" popover-trigger=\"mouseenter\" ng-repeat=\"event in day.events\" event=\"event.event\" ng-class=\"event.event.class\" calendar=\"calendar\" on-event-change=\"onEventChange\" on-event-click=\"onEventClick\" event-left=\"event.location.left\" event-width=\"event.location.width\" start-time=\"startTime\" end-time=\"endTime\"> \r\n" +
+	"\t<cal-event popover-placement=\"bottom\" uib-popover-template=\"\'popover.html\'\" popover-popup-delay=\"500\" popover-trigger=\"mouseenter\" ng-repeat=\"event in day.events\" event=\"event.event\" ng-class=\"event.event.class\" calendar=\"calendar\" on-event-change=\"onEventChange\" on-event-click=\"onEventClick\" event-left=\"event.location.left\" event-width=\"event.location.width\" start-time=\"startTime\" end-time=\"endTime\"> \r\n" +
     "\n" +
     "\t</cal-event>\r" +
     "\n" +
@@ -1455,6 +1487,9 @@ angular.module('dynamicCal').run(['$templateCache', function($templateCache) {
   );
 
   $templateCache.put('popover.html',
-	"<div style='display::inline-block;text-align:center;'><strong>{{ event.event.empName }}</strong></br> {{ event.event.title }}</br> {{event.event.start | date : \'h:mm a\'}} to {{event.event.end| date : \'h:mm a\'}}</div>'");
+    "<div style='position: relative; display:inline-block;text-align:center;'><strong>{{ event.event.empName }}</strong></br> {{ event.event.title }}</br> {{event.event.start | date : \'h:mm a\'}} to {{event.event.end| date : \'h:mm a\'}} </div>'")
+
+ //  $templateCache.put('popover.html',
+	// "<div style='display::inline-block;text-align:center;'><strong>{{ event.event.empName }}</strong></br> {{ event.event.title }}</br> {{event.event.start | date : \'h:mm a\'}} to {{event.event.end| date : \'h:mm a\'}}</div>'");
 
 }]);
